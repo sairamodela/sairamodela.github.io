@@ -1,4 +1,3 @@
-// Advanced modular portfolio app
 const Portfolio = (() => {
   const CONFIG = {
     HEADER_SCROLL_THRESHOLD: 10,
@@ -9,28 +8,21 @@ const Portfolio = (() => {
   };
 
   const DOM = {
-    header: null,
-    nav: null,
-    navToggle: null,
-    navLinks: null,
-    backToTop: null,
-    sections: [],
-    resumeLink: null,
-
     init() {
       this.header = document.getElementById("site-header");
       this.nav = document.getElementById("site-nav");
       this.navToggle = document.getElementById("nav-toggle");
       this.navLinks = document.querySelectorAll(".site-nav .nav-link");
       this.backToTop = document.getElementById("back-to-top");
-      this.sections = Array.from(document.querySelectorAll("main section[id]"));
+      this.sections = Array.from(this.navLinks, (link) =>
+        document.querySelector(link.getAttribute("href"))
+      ).filter(Boolean);
       this.resumeLink = document.getElementById("resume-link");
     },
   };
 
   const state = {
     isProgrammaticScroll: false,
-    isScrolling: false,
     scrollTimeout: null,
     mobileNavOpen: false,
   };
@@ -52,60 +44,50 @@ const Portfolio = (() => {
 
     init() {
       if (!DOM.nav || !DOM.navToggle) return;
+      this.toggle(false);
       this.setupToggleButton();
-      this.setupOutsideClickDismissal();
-      this.setupMediaQueryListener();
+      this.setupDismissal();
+      this.mobileNav.addEventListener("change", () => this.toggle(false));
     },
 
-    toggle(open = !state.mobileNavOpen) {
-      state.mobileNavOpen = open;
-      const shouldExpand = this.mobileNav.matches && open;
+    toggle(open = !state.mobileNavOpen, { returnFocus = false } = {}) {
+      const isMobile = this.mobileNav.matches;
+      const expanded = isMobile && open;
+      state.mobileNavOpen = expanded;
 
-      DOM.nav.classList.toggle("is-open", shouldExpand);
-      DOM.nav.inert = this.mobileNav.matches && !shouldExpand;
-      DOM.navToggle.setAttribute("aria-expanded", String(shouldExpand));
-      DOM.navToggle.setAttribute(
-        "aria-label",
-        shouldExpand ? "Close navigation" : "Open navigation"
-      );
+      DOM.nav.classList.toggle("is-open", expanded);
+      DOM.nav.inert = isMobile && !expanded;
+      DOM.navToggle.setAttribute("aria-expanded", String(expanded));
+      DOM.navToggle.setAttribute("aria-label", expanded ? "Close navigation" : "Open navigation");
 
       const icon = DOM.navToggle.querySelector("i");
-      icon?.classList.toggle("fa-bars", !shouldExpand);
-      icon?.classList.toggle("fa-times", shouldExpand);
+      icon?.classList.toggle("fa-bars", !expanded);
+      icon?.classList.toggle("fa-times", expanded);
 
-      if (shouldExpand && !state.mobileNavOpen) DOM.navLinks[0]?.focus({ preventScroll: true });
+      if (returnFocus && isMobile) DOM.navToggle.focus({ preventScroll: true });
     },
 
     setupToggleButton() {
       DOM.navToggle.addEventListener("click", (e) => {
         this.toggle();
-        if (e.detail === 0) DOM.navLinks[0]?.focus({ preventScroll: true });
+        // Keyboard activation (detail === 0) moves focus into the opened menu.
+        if (state.mobileNavOpen && e.detail === 0) DOM.navLinks[0]?.focus({ preventScroll: true });
       });
     },
 
-    setupOutsideClickDismissal() {
-      const isNavClick = (target) => DOM.nav.contains(target) || DOM.navToggle.contains(target);
+    setupDismissal() {
+      const isInsideNav = (target) => DOM.nav.contains(target) || DOM.navToggle.contains(target);
+      const closeIfOutside = (e) => state.mobileNavOpen && !isInsideNav(e.target) && this.toggle(false);
+      const closeOnScroll = () =>
+        state.mobileNavOpen && this.toggle(false, { returnFocus: DOM.nav.contains(document.activeElement) });
 
-      const handlers = [
-        ["pointerdown", (e) => !isNavClick(e.target) && this.toggle(false)],
-        ["focusin", (e) => !isNavClick(e.target) && this.toggle(false)],
-        ["scroll", () => state.mobileNavOpen && this.toggle(false), { passive: true }],
-        ["wheel", () => state.mobileNavOpen && this.toggle(false), { passive: true }],
-        ["touchmove", () => state.mobileNavOpen && this.toggle(false), { passive: true }],
-      ];
-
-      handlers.forEach(([event, handler, opts]) => {
-        document.addEventListener(event, handler, opts || false);
-      });
-
+      document.addEventListener("pointerdown", closeIfOutside);
+      document.addEventListener("focusin", closeIfOutside);
+      ["scroll", "wheel", "touchmove"].forEach((type) =>
+        window.addEventListener(type, closeOnScroll, { passive: true })
+      );
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && state.mobileNavOpen) this.toggle(false);
-      });
-    },
-
-    setupMediaQueryListener() {
-      this.mobileNav.addEventListener("change", () => {
-        state.mobileNavOpen && this.toggle(false);
+        if (e.key === "Escape" && state.mobileNavOpen) this.toggle(false, { returnFocus: true });
       });
     },
   };
@@ -123,19 +105,19 @@ const Portfolio = (() => {
       if (!target) return;
 
       e.preventDefault();
-      this.scrollToSection(target, targetId);
+      this.scrollToSection(target, e.detail === 0);
       this.updateActiveLink(targetId);
       MobileNavigation.toggle(false);
     },
 
-    scrollToSection(target, targetId) {
+    scrollToSection(target, fromKeyboard) {
       const headerHeight = DOM.header?.offsetHeight ?? 0;
       const { top } = target.getBoundingClientRect();
       const offset = top + window.scrollY - headerHeight - CONFIG.HEADER_OFFSET;
 
       window.scrollTo({ top: offset, behavior: "smooth" });
 
-      if (event?.detail === 0) {
+      if (fromKeyboard) {
         target.setAttribute("tabindex", "-1");
         target.focus({ preventScroll: true });
       }
@@ -149,36 +131,25 @@ const Portfolio = (() => {
 
     updateActiveLink(targetId) {
       DOM.navLinks.forEach((link) => {
-        const href = link.getAttribute("href");
-        link.classList.toggle("is-active", href === targetId);
+        link.classList.toggle("is-active", link.getAttribute("href") === targetId);
       });
     },
 
     updateActiveOnScroll() {
-      if (state.isProgrammaticScroll) return;
+      if (state.isProgrammaticScroll || !DOM.sections.length) return;
 
-      const scrollY = window.scrollY || window.pageYOffset;
-      const headerHeight = DOM.header?.offsetHeight ?? 0;
-      let activeId = "";
+      const scrollY = window.scrollY;
+      const probe = (DOM.header?.offsetHeight ?? 0) + CONFIG.SECTION_OFFSET;
+      const atBottom =
+        window.innerHeight + Math.round(scrollY) >= document.documentElement.scrollHeight - 20;
 
+      let active = DOM.sections[0];
       for (const section of DOM.sections) {
-        const sectionTop = section.offsetTop - headerHeight;
-        const sectionBottom = sectionTop + section.offsetHeight;
-
-        if (scrollY >= sectionTop && scrollY < sectionBottom) {
-          activeId = section.id;
-        }
+        if (section.getBoundingClientRect().top <= probe) active = section;
       }
+      if (atBottom) active = DOM.sections[DOM.sections.length - 1];
 
-      if (window.innerHeight + Math.round(scrollY) >= document.body.offsetHeight - 20) {
-        activeId = DOM.sections[DOM.sections.length - 1]?.id || "";
-      }
-
-      if (activeId) {
-        DOM.navLinks.forEach((link) => {
-          link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
-        });
-      }
+      this.updateActiveLink(`#${active.id}`);
     },
   };
 
@@ -189,19 +160,10 @@ const Portfolio = (() => {
     },
 
     handleScroll() {
-      if (state.isScrolling) return;
-
-      window.requestAnimationFrame(() => {
-        const scrollY = window.scrollY || window.pageYOffset;
-
-        this.updateHeaderShadow(scrollY);
-        this.updateBackToTopButton(scrollY);
-        Navigation.updateActiveOnScroll();
-
-        state.isScrolling = false;
-      });
-
-      state.isScrolling = true;
+      const scrollY = window.scrollY;
+      this.updateHeaderShadow(scrollY);
+      this.updateBackToTopButton(scrollY);
+      Navigation.updateActiveOnScroll();
     },
 
     updateHeaderShadow(scrollY) {
@@ -226,7 +188,7 @@ const Portfolio = (() => {
       if (DOM.resumeLink.classList.contains("btn-loading")) return;
 
       DOM.resumeLink.classList.add("btn-loading");
-      DOM.resumeLink.innerHTML = 'Opening <i class="fas fa-spinner fa-spin spinner"></i>';
+      DOM.resumeLink.innerHTML = 'Opening <i class="fas fa-spinner fa-spin"></i>';
 
       setTimeout(() => this.resetState(), 2000);
     },
@@ -272,4 +234,3 @@ const Portfolio = (() => {
 })();
 
 document.addEventListener("DOMContentLoaded", () => Portfolio.init());
-window.addEventListener("load", () => AnimationManager.init?.());

@@ -108,6 +108,16 @@ document.addEventListener("DOMContentLoaded", () => {
         target.focus({ preventScroll: true });
       }
       
+      // Immediately update active nav link
+      navLinks.forEach((link) => {
+        const href = link.getAttribute("href");
+        if (href === targetId) {
+          link.classList.add("is-active");
+        } else {
+          link.classList.remove("is-active");
+        }
+      });
+
       // Temporarily pause the active nav intersection observer until scroll completes
       isProgrammaticScroll = true;
       clearTimeout(scrollTimeout);

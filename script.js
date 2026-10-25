@@ -162,18 +162,16 @@ const Portfolio = (() => {
       let activeId = "";
 
       for (const section of DOM.sections) {
-        const rect = section.getBoundingClientRect();
-        const top = rect.top + window.scrollY - headerHeight - CONFIG.SECTION_OFFSET;
-        const bottom = top + section.offsetHeight;
+        const sectionTop = section.offsetTop - headerHeight;
+        const sectionBottom = sectionTop + section.offsetHeight;
 
-        if (scrollY >= top && scrollY < bottom) {
+        if (scrollY >= sectionTop && scrollY < sectionBottom) {
           activeId = section.id;
-          break;
         }
       }
 
-      if (!activeId && window.innerHeight + Math.round(scrollY) >= document.body.offsetHeight - 10) {
-        activeId = DOM.sections[DOM.sections.length - 1]?.id;
+      if (window.innerHeight + Math.round(scrollY) >= document.body.offsetHeight - 20) {
+        activeId = DOM.sections[DOM.sections.length - 1]?.id || "";
       }
 
       if (activeId) {

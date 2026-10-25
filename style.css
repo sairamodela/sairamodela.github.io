@@ -1,29 +1,35 @@
 :root {
+  color-scheme: dark;
+
+  /* Backgrounds */
   --bg-body: #000000;
-  --bg-elevated: #16181c;
-  --bg-elevated-soft: #202327;
+  --bg-surface: #16181c;
+  --bg-surface-soft: #202327;
   --bg-accent-soft: rgba(255, 255, 255, 0.04);
-  --surface-1: #16181c;
-  --surface-2: #202327;
+
+  /* Borders */
   --border-subtle: #2f3336;
   --border-strong: #41454a;
-  --accent: #aeb4ba;
-  --accent-soft: rgba(255, 255, 255, 0.08);
-  --accent-strong: #d7dbdf;
+
+  /* Text & Accents */
   --text-main: #e7e9ea;
   --text-muted: #a3a8ad;
   --text-soft: #71767b;
-  --shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.45);
-  color-scheme: dark;
+  --accent: #aeb4ba;
+  --accent-strong: #d7dbdf;
+
+  /* Interactive */
   --action-bg: #cbd0d4;
   --action-hover: #b8bfc5;
   --action-text: #111111;
-  --icon-color: #aeb4ba;
   --control-bg: #16181c;
   --control-hover: #25282b;
   --control-text: #aeb4ba;
   --control-border: #41454a;
   --control-focus: #aeb4ba;
+
+  /* Icons */
+  --icon-color: #aeb4ba;
 }
 
 *,
@@ -162,7 +168,6 @@ button {
   font-size: 14px;
   letter-spacing: 0.06em;
   color: #e7e9ea;
-  box-shadow: none;
 }
 
 .brand-text {
@@ -371,10 +376,8 @@ button {
 .meta-item {
   padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(51, 65, 85, 0.9);
-  background: #16181c;
-  border-color: #2f3336;
-  box-shadow: none;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
 }
 
 .meta-label {
@@ -413,8 +416,6 @@ button {
   padding: 4px;
   border-radius: 26px;
   background: #3a3d41;
-  color: #e7e9ea;
-  box-shadow: none;
 }
 
 .avatar {
@@ -440,19 +441,16 @@ button {
 /* Cards & grids */
 
 .card {
-  background: #16181c;
+  background: var(--bg-surface);
   border-radius: 18px;
-  padding: 18px 18px 18px;
-  border: 1px solid rgba(51, 65, 85, 0.9);
-  box-shadow: none;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
-  will-change: transform, box-shadow;
-  border-color: #2f3336;
+  padding: 18px;
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+  will-change: transform;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: none;
   border-color: #5b6065;
 }
 
@@ -513,10 +511,7 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.card-project {
-  min-height: 0;
-}
-
+.card-project,
 .card-cert {
   min-height: 0;
 }
@@ -606,17 +601,14 @@ button {
 .contact-card {
   border-radius: 16px;
   padding: 14px 15px;
-  background: #16181c;
-  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   gap: 10px;
   text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease,
-    transform 0.2s ease, box-shadow 0.2s ease;
-  will-change: transform, box-shadow;
-  border-color: #2f3336;
-  box-shadow: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  will-change: transform;
 }
 
 .contact-card i {
@@ -626,11 +618,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #202327;
-  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: var(--bg-surface-soft);
+  border: 1px solid var(--control-border);
   color: var(--icon-color);
   font-size: 15px;
-  border-color: #41454a;
 }
 
 .contact-label {
@@ -651,19 +642,14 @@ button {
 .contact-card:hover {
   transform: translateY(-2px);
   border-color: #5b6065;
-  box-shadow: none;
 }
-
-/* Back to top */
 
 /* Footer */
 
 .site-footer {
-  border-top: 1px solid rgba(15, 23, 42, 1);
+  border-top: 1px solid var(--border-subtle);
   padding: 16px 0 18px;
-  background: #16181c;
-  border-color: #2f3336;
-  box-shadow: none;
+  background: var(--bg-surface);
 }
 
 .site-footer-inner {
@@ -710,16 +696,12 @@ button {
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: none;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease;
 }
 
 .btn:hover,
 .link-inline:hover {
   background: var(--action-hover);
-  color: var(--action-text);
-  transform: none;
-  box-shadow: none;
 }
 
 .btn i,
@@ -728,8 +710,6 @@ button {
   font-size: 14px;
   line-height: 1;
   text-align: center;
-  background: none;
-  transform: none;
   flex-shrink: 0;
 }
 
@@ -789,7 +769,6 @@ button {
   text-decoration: none;
   cursor: pointer;
   flex-shrink: 0;
-  box-shadow: none;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
@@ -798,8 +777,6 @@ button {
 .back-to-top:hover {
   background: var(--control-hover);
   border-color: var(--text-muted);
-  color: var(--control-text);
-  box-shadow: none;
 }
 
 .icon-button i,

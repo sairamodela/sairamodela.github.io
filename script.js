@@ -1,244 +1,277 @@
-// Initialize AOS and page behaviors
-window.addEventListener("load", () => {
-  if (window.AOS) {
-    window.AOS.init({
-      once: true,
-      duration: 750,
-      easing: "ease-out-cubic",
-      // Respect the user's motion preferences (CSS already forces content visible)
-      disable: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    });
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const header = document.getElementById("site-header");
-  const nav = document.getElementById("site-nav");
-  const navToggle = document.getElementById("nav-toggle");
-  const navLinks = document.querySelectorAll(".site-nav .nav-link");
-  const backToTop = document.getElementById("back-to-top");
-  const sections = Array.from(document.querySelectorAll("main section[id]"));
-  // Mark icon elements as decorative for screen readers
-  document.querySelectorAll("i").forEach((icon) => {
-    if (!icon.hasAttribute("aria-hidden")) {
-      icon.setAttribute("aria-hidden", "true");
-    }
-  });
-
-  const mobileNav = window.matchMedia("(max-width: 1024px)");
-  const setNavOpen = (open, returnFocus = false) => {
-    if (!nav || !navToggle) return;
-    const expanded = mobileNav.matches && open;
-    nav.classList.toggle("is-open", expanded);
-    nav.inert = mobileNav.matches && !expanded;
-    navToggle.setAttribute("aria-expanded", String(expanded));
-    navToggle.setAttribute("aria-label", expanded ? "Close navigation" : "Open navigation");
-    const icon = navToggle.querySelector("i");
-    if (icon) {
-      icon.classList.toggle("fa-bars", !expanded);
-      icon.classList.toggle("fa-times", expanded);
-    }
-    if (returnFocus && mobileNav.matches) navToggle.focus({ preventScroll: true });
+// Advanced modular portfolio app
+const Portfolio = (() => {
+  const CONFIG = {
+    HEADER_SCROLL_THRESHOLD: 10,
+    BACK_TO_TOP_THRESHOLD: 260,
+    SMOOTH_SCROLL_DURATION: 800,
+    HEADER_OFFSET: 12,
+    SECTION_OFFSET: 40,
   };
 
-  if (nav && navToggle) {
-    setNavOpen(false);
+  const DOM = {
+    header: null,
+    nav: null,
+    navToggle: null,
+    navLinks: null,
+    backToTop: null,
+    sections: [],
+    resumeLink: null,
 
-    navToggle.addEventListener("click", (event) => {
-      const open = !nav.classList.contains("is-open");
-      setNavOpen(open);
-      if (open && event.detail === 0) navLinks[0]?.focus({ preventScroll: true });
-    });
+    init() {
+      this.header = document.getElementById("site-header");
+      this.nav = document.getElementById("site-nav");
+      this.navToggle = document.getElementById("nav-toggle");
+      this.navLinks = document.querySelectorAll(".site-nav .nav-link");
+      this.backToTop = document.getElementById("back-to-top");
+      this.sections = Array.from(document.querySelectorAll("main section[id]"));
+      this.resumeLink = document.getElementById("resume-link");
+    },
+  };
 
-    document.addEventListener("pointerdown", (event) => {
-      if (!nav.contains(event.target) && !navToggle.contains(event.target)) {
-        setNavOpen(false);
-      }
-    });
+  const state = {
+    isProgrammaticScroll: false,
+    isScrolling: false,
+    scrollTimeout: null,
+    mobileNavOpen: false,
+  };
 
-    document.addEventListener("focusin", (event) => {
-      if (!nav.contains(event.target) && !navToggle.contains(event.target)) {
-        setNavOpen(false);
-      }
-    });
+  const AccessibilityManager = {
+    init() {
+      this.markIconsAsDecorative();
+    },
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && nav.classList.contains("is-open")) {
-        setNavOpen(false, true);
-      }
-    });
+    markIconsAsDecorative() {
+      document.querySelectorAll("i").forEach((icon) => {
+        if (!icon.hasAttribute("aria-hidden")) icon.setAttribute("aria-hidden", "true");
+      });
+    },
+  };
 
-    const dismissOnScroll = () => {
-      if (nav.classList.contains("is-open")) {
-        setNavOpen(false, nav.contains(document.activeElement));
-      }
-    };
-    window.addEventListener("scroll", dismissOnScroll, { passive: true });
-    window.addEventListener("wheel", dismissOnScroll, { passive: true });
-    window.addEventListener("touchmove", dismissOnScroll, { passive: true });
-    mobileNav.addEventListener("change", () => {
-      setNavOpen(false, nav.contains(document.activeElement));
-    });
-  }
+  const MobileNavigation = {
+    mobileNav: window.matchMedia("(max-width: 1024px)"),
 
-  // Smooth scrolling for nav links
-  navLinks.forEach((link) => {
-    link.addEventListener("click", (event) => {
-      const targetId = link.getAttribute("href");
-      if (!targetId || !targetId.startsWith("#")) return;
+    init() {
+      if (!DOM.nav || !DOM.navToggle) return;
+      this.setupToggleButton();
+      this.setupOutsideClickDismissal();
+      this.setupMediaQueryListener();
+    },
+
+    toggle(open = !state.mobileNavOpen) {
+      state.mobileNavOpen = open;
+      const shouldExpand = this.mobileNav.matches && open;
+
+      DOM.nav.classList.toggle("is-open", shouldExpand);
+      DOM.nav.inert = this.mobileNav.matches && !shouldExpand;
+      DOM.navToggle.setAttribute("aria-expanded", String(shouldExpand));
+      DOM.navToggle.setAttribute(
+        "aria-label",
+        shouldExpand ? "Close navigation" : "Open navigation"
+      );
+
+      const icon = DOM.navToggle.querySelector("i");
+      icon?.classList.toggle("fa-bars", !shouldExpand);
+      icon?.classList.toggle("fa-times", shouldExpand);
+
+      if (shouldExpand && !state.mobileNavOpen) DOM.navLinks[0]?.focus({ preventScroll: true });
+    },
+
+    setupToggleButton() {
+      DOM.navToggle.addEventListener("click", (e) => {
+        this.toggle();
+        if (e.detail === 0) DOM.navLinks[0]?.focus({ preventScroll: true });
+      });
+    },
+
+    setupOutsideClickDismissal() {
+      const isNavClick = (target) => DOM.nav.contains(target) || DOM.navToggle.contains(target);
+
+      const handlers = [
+        ["pointerdown", (e) => !isNavClick(e.target) && this.toggle(false)],
+        ["focusin", (e) => !isNavClick(e.target) && this.toggle(false)],
+        ["scroll", () => state.mobileNavOpen && this.toggle(false), { passive: true }],
+        ["wheel", () => state.mobileNavOpen && this.toggle(false), { passive: true }],
+        ["touchmove", () => state.mobileNavOpen && this.toggle(false), { passive: true }],
+      ];
+
+      handlers.forEach(([event, handler, opts]) => {
+        document.addEventListener(event, handler, opts || false);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && state.mobileNavOpen) this.toggle(false);
+      });
+    },
+
+    setupMediaQueryListener() {
+      this.mobileNav.addEventListener("change", () => {
+        state.mobileNavOpen && this.toggle(false);
+      });
+    },
+  };
+
+  const Navigation = {
+    init() {
+      DOM.navLinks.forEach((link) => link.addEventListener("click", (e) => this.handleLinkClick(e)));
+    },
+
+    handleLinkClick(e) {
+      const targetId = e.currentTarget.getAttribute("href");
+      if (!targetId?.startsWith("#")) return;
 
       const target = document.querySelector(targetId);
       if (!target) return;
 
-      event.preventDefault();
+      e.preventDefault();
+      this.scrollToSection(target, targetId);
+      this.updateActiveLink(targetId);
+      MobileNavigation.toggle(false);
+    },
 
-      const headerHeight = header ? header.offsetHeight : 0;
-      const rect = target.getBoundingClientRect();
-      const offset = rect.top + window.scrollY - headerHeight - 12;
+    scrollToSection(target, targetId) {
+      const headerHeight = DOM.header?.offsetHeight ?? 0;
+      const { top } = target.getBoundingClientRect();
+      const offset = top + window.scrollY - headerHeight - CONFIG.HEADER_OFFSET;
 
-      window.scrollTo({
-        top: offset,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: offset, behavior: "smooth" });
 
-      // Close the dropdown and keep keyboard focus on the selected content.
-      setNavOpen(false);
-      if (event.detail === 0) {
+      if (event?.detail === 0) {
         target.setAttribute("tabindex", "-1");
         target.focus({ preventScroll: true });
       }
-      
-      // Immediately update active nav link
-      navLinks.forEach((link) => {
+
+      state.isProgrammaticScroll = true;
+      clearTimeout(state.scrollTimeout);
+      state.scrollTimeout = setTimeout(() => {
+        state.isProgrammaticScroll = false;
+      }, CONFIG.SMOOTH_SCROLL_DURATION);
+    },
+
+    updateActiveLink(targetId) {
+      DOM.navLinks.forEach((link) => {
         const href = link.getAttribute("href");
-        if (href === targetId) {
-          link.classList.add("is-active");
-        } else {
-          link.classList.remove("is-active");
-        }
+        link.classList.toggle("is-active", href === targetId);
       });
+    },
 
-      // Temporarily pause the active nav intersection observer until scroll completes
-      isProgrammaticScroll = true;
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        isProgrammaticScroll = false;
-      }, 800);
-    });
-  });
+    updateActiveOnScroll() {
+      if (state.isProgrammaticScroll) return;
 
-  // Scroll-based header + nav link state + back-to-top button
-  let isScrolling = false;
-  let isProgrammaticScroll = false;
-  let scrollTimeout;
-  
-  const handleScroll = () => {
-    if (!isScrolling) {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const headerHeight = DOM.header?.offsetHeight ?? 0;
+      let activeId = "";
+
+      for (const section of DOM.sections) {
+        const rect = section.getBoundingClientRect();
+        const top = rect.top + window.scrollY - headerHeight - CONFIG.SECTION_OFFSET;
+        const bottom = top + section.offsetHeight;
+
+        if (scrollY >= top && scrollY < bottom) {
+          activeId = section.id;
+          break;
+        }
+      }
+
+      if (!activeId && window.innerHeight + Math.round(scrollY) >= document.body.offsetHeight - 10) {
+        activeId = DOM.sections[DOM.sections.length - 1]?.id;
+      }
+
+      if (activeId) {
+        DOM.navLinks.forEach((link) => {
+          link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
+        });
+      }
+    },
+  };
+
+  const ScrollManager = {
+    init() {
+      window.addEventListener("scroll", () => this.handleScroll(), { passive: true });
+      this.handleScroll();
+    },
+
+    handleScroll() {
+      if (state.isScrolling) return;
+
       window.requestAnimationFrame(() => {
         const scrollY = window.scrollY || window.pageYOffset;
 
-        // Header shadow state
-        if (header) {
-          if (scrollY > 10) {
-            header.classList.add("site-header--scrolled");
-          } else {
-            header.classList.remove("site-header--scrolled");
-          }
-        }
+        this.updateHeaderShadow(scrollY);
+        this.updateBackToTopButton(scrollY);
+        Navigation.updateActiveOnScroll();
 
-        // Back-to-top visibility
-        if (backToTop) {
-          if (scrollY > 260) {
-            backToTop.classList.add("is-visible");
-          } else {
-            backToTop.classList.remove("is-visible");
-          }
-        }
-
-        // Active nav link
-        if (!isProgrammaticScroll) {
-          let activeId = "";
-          const headerHeight = header ? header.offsetHeight : 0;
-
-          sections.forEach((section) => {
-            const rect = section.getBoundingClientRect();
-            const top = rect.top + window.scrollY - headerHeight - 40;
-            const bottom = top + section.offsetHeight;
-            if (scrollY >= top && scrollY < bottom) {
-              activeId = section.id;
-            }
-          });
-
-          // Ensure the last section is highlighted when scrolling reaches the bottom
-          if (window.innerHeight + Math.round(scrollY) >= document.body.offsetHeight - 10) {
-            if (sections.length > 0) {
-              activeId = sections[sections.length - 1].id;
-            }
-          }
-
-          if (activeId) {
-            navLinks.forEach((link) => {
-              const href = link.getAttribute("href");
-              if (href === `#${activeId}`) {
-                link.classList.add("is-active");
-              } else {
-                link.classList.remove("is-active");
-              }
-            });
-          }
-        }
-        
-        isScrolling = false;
+        state.isScrolling = false;
       });
-      isScrolling = true;
-    }
+
+      state.isScrolling = true;
+    },
+
+    updateHeaderShadow(scrollY) {
+      DOM.header?.classList.toggle("site-header--scrolled", scrollY > CONFIG.HEADER_SCROLL_THRESHOLD);
+    },
+
+    updateBackToTopButton(scrollY) {
+      DOM.backToTop?.classList.toggle("is-visible", scrollY > CONFIG.BACK_TO_TOP_THRESHOLD);
+    },
   };
 
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  handleScroll();
+  const ResumeButton = {
+    init() {
+      if (!DOM.resumeLink) return;
+      this.originalHTML = DOM.resumeLink.innerHTML;
+      DOM.resumeLink.addEventListener("click", (e) => this.handleClick(e));
+      window.addEventListener("pageshow", () => this.resetState());
+    },
 
-  // Back-to-top behavior
-  if (backToTop) {
-    backToTop.addEventListener("click", () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
+    handleClick(e) {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (DOM.resumeLink.classList.contains("btn-loading")) return;
+
+      DOM.resumeLink.classList.add("btn-loading");
+      DOM.resumeLink.innerHTML = 'Opening <i class="fas fa-spinner fa-spin spinner"></i>';
+
+      setTimeout(() => this.resetState(), 2000);
+    },
+
+    resetState() {
+      DOM.resumeLink.innerHTML = this.originalHTML;
+      DOM.resumeLink.classList.remove("btn-loading");
+    },
+  };
+
+  const BackToTop = {
+    init() {
+      DOM.backToTop?.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
-    });
-  }
+    },
+  };
 
-  // Resume link loading indicator
-  const resumeLink = document.getElementById("resume-link");
-  if (resumeLink) {
-    const originalText = resumeLink.innerHTML;
+  const AnimationManager = {
+    init() {
+      if (!window.AOS) return;
+      window.AOS.init({
+        once: true,
+        duration: 750,
+        easing: "ease-out-cubic",
+        disable: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      });
+    },
+  };
 
-    resumeLink.addEventListener("click", (e) => {
-      // Allow middle-click / ctrl/cmd/shift/alt modified clicks to open in new tab/window
-      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
-        return;
-      }
+  return {
+    init() {
+      DOM.init();
+      AccessibilityManager.init();
+      MobileNavigation.init();
+      Navigation.init();
+      ScrollManager.init();
+      BackToTop.init();
+      ResumeButton.init();
+      AnimationManager.init();
+    },
+  };
+})();
 
-      // We do not use e.preventDefault() so that the browser handles opening the tab natively (respecting target="_blank")
-      // This helps avoid popup blockers while still allowing us to show the loading indicator in the original tab.
-
-      if (resumeLink.classList.contains("btn-loading")) return;
-
-      resumeLink.classList.add("btn-loading");
-      resumeLink.innerHTML = 'Opening <i class="fas fa-spinner fa-spin spinner"></i>';
-
-      // Restore button state after a delay (if the user returns to this tab)
-      setTimeout(() => {
-        resumeLink.innerHTML = originalText;
-        resumeLink.classList.remove("btn-loading");
-      }, 2000);
-    });
-
-    // Reset button state if the page is loaded from bfcache (when user clicks Back button from same tab)
-    window.addEventListener("pageshow", (e) => {
-      if (e.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
-        resumeLink.innerHTML = originalText;
-        resumeLink.classList.remove("btn-loading");
-      }
-    });
-  }
-});
+document.addEventListener("DOMContentLoaded", () => Portfolio.init());
+window.addEventListener("load", () => AnimationManager.init?.());

@@ -18,34 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelectorAll(".site-nav .nav-link");
   const backToTop = document.getElementById("back-to-top");
   const sections = Array.from(document.querySelectorAll("main section[id]"));
-  const themeToggle = document.getElementById("theme-toggle");
-
-  // Theme toggle logic
-  if (themeToggle) {
-    const icon = themeToggle.querySelector("i");
-    
-    // Set initial icon based on data-theme
-    if (document.documentElement.getAttribute("data-theme") === "light") {
-      icon.classList.remove("fa-sun");
-      icon.classList.add("fa-moon");
-    }
-
-    themeToggle.addEventListener("click", () => {
-      const currentTheme = document.documentElement.getAttribute("data-theme");
-      if (currentTheme === "light") {
-        document.documentElement.removeAttribute("data-theme");
-        localStorage.setItem("theme", "dark");
-        icon.classList.remove("fa-moon");
-        icon.classList.add("fa-sun");
-      } else {
-        document.documentElement.setAttribute("data-theme", "light");
-        localStorage.setItem("theme", "light");
-        icon.classList.remove("fa-sun");
-        icon.classList.add("fa-moon");
-      }
-    });
-  }
-
   // Mark icon elements as decorative for screen readers
   document.querySelectorAll("i").forEach((icon) => {
     if (!icon.hasAttribute("aria-hidden")) {
@@ -53,23 +25,59 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Mobile navigation toggle
-  if (nav && navToggle) {
-    const setNavOpen = (open) => {
-      nav.classList.toggle("is-open", open);
-      navToggle.setAttribute("aria-expanded", String(open));
-    };
+  const mobileNav = window.matchMedia("(max-width: 1024px)");
+  const setNavOpen = (open, returnFocus = false) => {
+    if (!nav || !navToggle) return;
+    const expanded = mobileNav.matches && open;
+    nav.classList.toggle("is-open", expanded);
+    nav.inert = mobileNav.matches && !expanded;
+    navToggle.setAttribute("aria-expanded", String(expanded));
+    navToggle.setAttribute("aria-label", expanded ? "Close navigation" : "Open navigation");
+    const icon = navToggle.querySelector("i");
+    if (icon) {
+      icon.classList.toggle("fa-bars", !expanded);
+      icon.classList.toggle("fa-times", expanded);
+    }
+    if (returnFocus && mobileNav.matches) navToggle.focus({ preventScroll: true });
+  };
 
-    navToggle.addEventListener("click", () => {
-      setNavOpen(!nav.classList.contains("is-open"));
+  if (nav && navToggle) {
+    setNavOpen(false);
+
+    navToggle.addEventListener("click", (event) => {
+      const open = !nav.classList.contains("is-open");
+      setNavOpen(open);
+      if (open && event.detail === 0) navLinks[0]?.focus({ preventScroll: true });
     });
 
-    // Escape closes the menu and returns focus to the toggle button
+    document.addEventListener("pointerdown", (event) => {
+      if (!nav.contains(event.target) && !navToggle.contains(event.target)) {
+        setNavOpen(false);
+      }
+    });
+
+    document.addEventListener("focusin", (event) => {
+      if (!nav.contains(event.target) && !navToggle.contains(event.target)) {
+        setNavOpen(false);
+      }
+    });
+
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && nav.classList.contains("is-open")) {
-        setNavOpen(false);
-        navToggle.focus();
+        setNavOpen(false, true);
       }
+    });
+
+    const dismissOnScroll = () => {
+      if (nav.classList.contains("is-open")) {
+        setNavOpen(false, nav.contains(document.activeElement));
+      }
+    };
+    window.addEventListener("scroll", dismissOnScroll, { passive: true });
+    window.addEventListener("wheel", dismissOnScroll, { passive: true });
+    window.addEventListener("touchmove", dismissOnScroll, { passive: true });
+    mobileNav.addEventListener("change", () => {
+      setNavOpen(false, nav.contains(document.activeElement));
     });
   }
 
@@ -93,10 +101,11 @@ document.addEventListener("DOMContentLoaded", () => {
         behavior: "smooth",
       });
 
-      // Close mobile nav after selection
-      if (nav && nav.classList.contains("is-open")) {
-        nav.classList.remove("is-open");
-        if (navToggle) navToggle.setAttribute("aria-expanded", "false");
+      // Close the dropdown and keep keyboard focus on the selected content.
+      setNavOpen(false);
+      if (event.detail === 0) {
+        target.setAttribute("tabindex", "-1");
+        target.focus({ preventScroll: true });
       }
       
       // Temporarily pause the active nav intersection observer until scroll completes
@@ -222,24 +231,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-  // Live clock display (India Standard Time)
-  const liveTimeEl = document.getElementById("live-time");
-  if (liveTimeEl) {
-    const updateTime = () => {
-      const now = new Date();
-      // Format specifically to Asia/Kolkata (IST)
-      const timeString = now.toLocaleTimeString("en-US", {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
-      liveTimeEl.innerHTML = `${timeString} IST`;
-    };
-    updateTime();
-    // Update every minute (no need for seconds anymore)
-    setInterval(updateTime, 10000);
-  }
 });
-

@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Portfolio of Software Engineer Sairam Odela – backend, data, and cloud projects, experience, skills, and certifications."
+      content="I’m Sairam Odela, a Python backend engineer working with APIs, AWS, and AI. Here’s a little about what I do and the tools I use."
     />
-    <title>Sairam Odela · Software Engineer</title>
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
+    <title>Sairam Odela · Python Backend &amp; AI Engineer</title>
     
     <!-- SEO & Social Media OpenGraph Tags -->
-    <meta property="og:title" content="Sairam Odela · Software Engineer" />
-    <meta property="og:description" content="Portfolio of Software Engineer Sairam Odela – backend, data, and cloud projects, experience, skills, and certifications." />
+    <meta property="og:title" content="Sairam Odela · Python Backend &amp; AI Engineer" />
+    <meta property="og:description" content="I’m Sairam Odela, a Python backend engineer working with APIs, AWS, and AI." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sairamodela.github.io/sai-portfolio/" />
-    <meta property="og:image" content="https://sairamodela.github.io/sai-portfolio/profile--pic.jpg" />
+    <meta property="og:image" content="https://sairamodela.github.io/sai-portfolio/profile.webp" />
     <link rel="canonical" href="https://sairamodela.github.io/sai-portfolio/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sairam Odela · Software Engineer" />
-    <meta name="twitter:description" content="Portfolio of Software Engineer Sairam Odela – backend, data, and cloud projects, experience, skills, and certifications." />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#020617" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
+    <meta name="twitter:image" content="https://sairamodela.github.io/sai-portfolio/profile.webp" />
+    <meta name="twitter:title" content="Sairam Odela · Python Backend &amp; AI Engineer" />
+    <meta name="twitter:description" content="I’m Sairam Odela, a Python backend engineer working with APIs, AWS, and AI." />
     
     <!-- Dynamic SVG Favicon (SO text logo) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23020617%22/><text x=%2250%22 y=%2254%22 font-family=%22system-ui, sans-serif%22 font-weight=%22bold%22 font-size=%2242%22 fill=%22%23e5e7eb%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>SO</text></svg>">
@@ -62,19 +63,10 @@
         html { scroll-behavior: auto; }
       }
     </style>
-
-    
-    <!-- Theme initialization -->
-    <script>
-      const savedTheme = localStorage.getItem("theme");
-      const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
-      if (savedTheme === "light" || (!savedTheme && prefersLight)) {
-        document.documentElement.setAttribute("data-theme", "light");
-      }
-    </script>
   </head>
   <body>
     <div class="app">
+      <a class="skip-link" href="#main-content">Skip to main content</a>
       <!-- Header / Navigation -->
       <header id="site-header" class="site-header">
         <div class="site-header-inner">
@@ -82,14 +74,13 @@
             <span class="brand-mark">SO</span>
             <span class="brand-text">
               <span class="brand-name">Sairam Odela</span>
-              <span class="brand-role">Software Engineer</span>
+              <span class="brand-role">Python Backend &amp; AI Engineer</span>
             </span>
           </a>
 
-          <nav id="site-nav" class="site-nav">
+          <nav id="site-nav" class="site-nav" aria-label="Main navigation">
             <a href="#profile" class="nav-link is-active">About</a>
             <a href="#work-experience" class="nav-link">Experience</a>
-            <a href="#projects" class="nav-link">Projects</a>
             <a href="#skills" class="nav-link">Skills</a>
             <a href="#education" class="nav-link">Education</a>
             <a href="#certifications" class="nav-link">Certifications</a>
@@ -98,16 +89,10 @@
 
           <div class="header-actions">
             <button
-              id="theme-toggle"
-              class="icon-button theme-toggle"
-              aria-label="Toggle theme"
-            >
-              <i class="fas fa-sun"></i> <!-- Icon toggled by JS -->
-            </button>
-            <button
+              type="button"
               id="nav-toggle"
               class="icon-button nav-toggle"
-              aria-label="Toggle navigation"
+              aria-label="Open navigation"
               aria-expanded="false"
               aria-controls="site-nav"
             >
@@ -118,7 +103,7 @@
       </header>
 
       <!-- Main content -->
-      <main class="page-main">
+      <main id="main-content" class="page-main">
         <!-- Hero / Profile -->
 <section
   id="profile"
@@ -128,39 +113,35 @@
 >
   <div class="section-inner hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow">Backend · APIs · Cloud · AI</p>
+      <p class="eyebrow">Python · AWS · Generative AI · Agentic AI</p>
 
       <h1 class="hero-title">
         Hi, I’m Sairam Odela —<br />
-        <span class="hero-role">Software Engineer</span>
+        <span class="hero-role">Python Backend &amp; AI Engineer</span>
       </h1>
 
       <p class="hero-subtitle">
-        I design backends that stay clean, consistent, and resilient — no
-        matter the scale or challenge.
+        I like building backend systems that are easy to understand and dependable in production.
       </p>
       <p class="hero-body">
-        I'm a software engineer at <span class="text-strong">Verisk Analytics</span>,
-        working every day with <span class="text-strong">Python</span>,
-        <span class="text-strong">REST APIs</span>, and
-        <span class="text-strong">AWS</span>.
-        I love taking complex ideas and turning them into simple, dependable
-        services that teams can trust.
-        Lately I've been diving deeper into <span class="text-strong">LLMs</span>
-        and <span class="text-strong">MCP</span> — excited about where AI and
-        backend engineering are heading together.
+        I’m a backend engineer at <span class="text-strong">Verisk</span>. I mostly work with
+        <span class="text-strong">Python</span>, <span class="text-strong">APIs</span>, and
+        <span class="text-strong">AWS</span>. I’m especially interested in
+        <span class="text-strong">Generative AI</span> and <span class="text-strong">Agentic AI</span>.
+        I explore tools like Codex, Claude Code, and Grok to understand how agents use tools,
+        work through tasks, and fit into everyday development. There’s a lot to learn, and I enjoy trying it out.
       </p>
              <div class="hero-actions">
                 <a
                   href="mailto:saiodela2@gmail.com"
-                  class="btn btn-primary"
+                  class="btn"
                 >
                   <i class="fas fa-paper-plane"></i>
                   <span>Get in touch</span>
                 </a>
                 <a
                   href="https://github.com/sairamodela"
-                  class="btn btn-ghost"
+                  class="btn"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -172,7 +153,7 @@
                   href="https://drive.google.com/file/d/1yVh7gNpj3siepMMJrc8qFXc5EJtURrbq/view?usp=drive_link" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="btn btn-ghost"
+                  class="btn"
                 >
                   <i class="fas fa-file-alt"></i>
                   <span class="btn-text">Resume</span>
@@ -190,7 +171,7 @@
                 </div>
                 <div class="meta-item">
                   <span class="meta-label">Focus</span>
-                  <span class="meta-value">Backend, Data, Cloud</span>
+                  <span class="meta-value">Python Backend, AWS, AI</span>
                 </div>
               </div>
             </div>
@@ -199,22 +180,23 @@
               <div class="card card-profile">
                 <div class="avatar-wrapper">
                   <img
-                    src="profile--pic.jpg"
+                    src="profile.webp"
                     alt="Portrait of Sairam Odela"
                     class="avatar"
-                    width="300"
-                    height="300"
+                    width="1408"
+                    height="1760"
                     fetchpriority="high"
                     decoding="async"
                   />
                 </div>
                 <div class="card-profile-body">
                 <p>
-                  I'm mostly a backend person — building features from scratch, improving what’s
-                  already there, and trying my best to write code that won’t scare anyone who reads
-                  it later😄. I aim for simple, clear, dependable systems (and fewer late-night bugs).
+                  I’m mostly a backend person. I enjoy building things from scratch, improving what’s
+                  already there, and writing code that’s easy for the next person to understand.
+                  Fewer late-night bugs are always a bonus.
                 </p>                  <div class="inline-links">
                     <a
+                      aria-label="LinkedIn profile"
                       href="https://www.linkedin.com/in/sairamodela"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -222,6 +204,7 @@
                       <i class="fab fa-linkedin-in"></i>
                     </a>
                     <a
+                      aria-label="GitHub profile"
                       href="https://github.com/sairamodela"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -229,6 +212,7 @@
                       <i class="fab fa-github"></i>
                     </a>
                     <a
+                      aria-label="Instagram profile"
                       href="https://www.instagram.com/kittu.saai/"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -262,121 +246,28 @@
               </div>
             </header>
           <p class="card-body">
-            At Verisk Analytics, I work as a backend-focused software engineer, spending
-            most of my time building and maintaining APIs, working with databases, and
-            supporting cloud-based systems. My role involves understanding product needs,
-            translating them into backend logic, and making sure the systems remain stable
-            and easy to work with for other teams.
+            At Verisk, I work on backend services using Python, APIs, data workflows, and AWS.
+            I work with my team to turn requirements into features that are clear and maintainable.
           </p>
 
           <ul class="card-list">
             <li>
               <strong>Backend & data workflows:</strong>
-              I work with Python services that process and store large volumes of data,
-              handling validation, transformations, and database interactions using
-              PostgreSQL and AWS-managed services.
+              Build Python workflows that validate and transform data, using PostgreSQL
+              and AWS services.
             </li>
 
             <li>
               <strong>API development & integrations:</strong>
-              I design and maintain REST APIs used by internal applications, focusing on
-              clear request/response design, error handling, and long-term maintainability.
+              Build and update REST APIs, keeping the interfaces clear and handling errors carefully.
             </li>
 
             <li>
               <strong>AI-backed internal platforms:</strong>
-              I contribute to backend services for internal AI-driven tools, working on
-              data handling, API logic, and deployment workflows while collaborating closely
-              with senior engineers.
+              Help with backend work for AI-enabled tools, including service logic and data handling.
             </li>
           </ul>
     </article> 
-        </section>
-
-        <!-- Projects -->
-        <section
-          id="projects"
-          class="section"
-          data-aos="fade-up"
-          data-aos-duration="900"
-        >
-          <div class="section-inner">
-            <div class="section-header">
-              <p class="eyebrow">Selected Work</p>
-              <h2 class="section-title">Projects</h2>
-            </div>
-
-            <div class="grid grid-3">
-<article class="card card-project">
-  <div class="card-badge">Machine Learning</div>
-  <h3>Signature Verification Using Machine Learning</h3>
-  <p class="card-meta">
-    Python · Scikit-learn · Image Classification
-  </p>
-  <p class="card-body">
-    Built a machine learning system that verifies handwritten
-    signatures by learning visual patterns from genuine and
-    forged samples. The project covers image preprocessing,
-    feature extraction, and training a classification model to
-    make reliable authenticity predictions.
-  </p>
-    <a
-      href="https://github.com/sairamodela/signature-verification"
-      class="link-inline"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-    <span>View project</span>
-    <i class="fas fa-arrow-right"></i>
-  </a>
-</article>
-              <article class="card card-project">
-                <div class="card-badge">NLP</div>
-                <h3>Fake News Detection Using Machine Learning</h3>
-                <p class="card-meta">
-                  Python · NLP · Text Classification
-                </p>
-                <p class="card-body">
-                  Designed a system that uses natural language processing and
-                  machine learning to classify news articles as real or fake,
-                  focusing on text preprocessing, feature engineering, and
-                  robust evaluation.
-                </p>
-                <a
-                  href="https://github.com/sairamodela/fake-news-detection"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>View project</span>
-                  <i class="fas fa-arrow-right"></i>
-                </a>
-              </article>
-
-              <article class="card card-project">
-                <div class="card-badge">Flask · ML</div>
-                <h3>Fraud Detection in Financial Transactions</h3>
-                <p class="card-meta">
-                  Python · Flask · Machine Learning
-                </p>
-                <p class="card-body">
-                  Built a Flask application backed by a machine learning model
-                  that detects potentially fraudulent transactions with around
-                  95% accuracy, emphasizing feature selection and inference
-                  latency.
-                </p>
-                <a
-                  href="https://github.com/sairamodela/Fraud-Detection-In-Financial-Transactions"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>View project</span>
-                  <i class="fas fa-arrow-right"></i>
-                </a>
-              </article>
-            </div>
-          </div>
         </section>
 
 <!-- Skills -->
@@ -394,77 +285,92 @@
 
     <div class="grid grid-3 skills-grid">
 
-      <!-- Programming Languages -->
+      <!-- Lead with the user's backend engineering focus -->
       <div class="card card-skill-group">
-        <h3>Programming Languages</h3>
+        <span class="skill-icon" aria-hidden="true"><i class="fas fa-server"></i></span>
+        <h3>Backend &amp; APIs</h3>
         <ul>
           <li>Python</li>
-          <li>Java</li>
-          <li>JavaScript</li>
-          <li>TypeScript</li>
-        </ul>
-      </div>
-
-      <!-- Web & Frontend -->
-      <div class="card card-skill-group">
-        <h3>Web & Frontend</h3>
-        <ul>
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>Angular</li>
-          <li>Streamlit</li>
-        </ul>
-      </div>
-
-      <!-- Backend & APIs -->
-      <div class="card card-skill-group">
-        <h3>Backend & APIs</h3>
-        <ul>
           <li>Flask</li>
           <li>FastAPI</li>
-          <li>REST APIs</li>
+          <li>REST API design</li>
+          <li>API integrations</li>
+          <li>Data validation &amp; transformation</li>
         </ul>
       </div>
 
-      <!-- Databases -->
+      <!-- Cloud skills -->
       <div class="card card-skill-group">
-        <h3>Databases</h3>
-        <ul>
-          <li>PostgreSQL</li>
-          <li>MySQL</li>
-          <li>DynamoDB</li>
-        </ul>
-      </div>
-
-      <!-- Cloud & AWS -->
-      <div class="card card-skill-group">
-        <h3>Cloud & AWS</h3>
+        <span class="skill-icon" aria-hidden="true"><i class="fab fa-aws"></i></span>
+        <h3>AWS &amp; Cloud</h3>
         <ul>
           <li>EC2</li>
           <li>Lambda</li>
           <li>S3</li>
           <li>RDS (PostgreSQL)</li>
+          <li>DynamoDB</li>
           <li>CloudWatch</li>
           <li>OpenSearch</li>
           <li>Bedrock</li>
         </ul>
       </div>
 
-      <!-- AI & Data -->
+      <!-- AI skills -->
       <div class="card card-skill-group">
-        <h3>AI & Data</h3>
+        <span class="skill-icon" aria-hidden="true"><i class="fas fa-brain"></i></span>
+        <h3>Generative AI &amp; LLMs</h3>
         <ul>
+          <li>Generative AI (GenAI)</li>
           <li>Large Language Models (LLMs)</li>
           <li>Retrieval-Augmented Generation (RAG)</li>
           <li>Model Context Protocol (MCP)</li>
+          <li>Amazon Bedrock</li>
+          <li>LLM API integration</li>
+        </ul>
+      </div>
+
+      <!-- Hands-on AI exploration -->
+      <div class="card card-skill-group">
+        <span class="skill-icon" aria-hidden="true"><i class="fas fa-robot"></i></span>
+        <h3>Agentic AI &amp; Tools</h3>
+        <ul>
+          <li>Agentic AI exploration</li>
+          <li>AI agent workflows</li>
+          <li>Codex</li>
+          <li>Claude Code</li>
+          <li>Grok</li>
+        </ul>
+        <p class="card-body">Exploring how coding agents plan tasks, use tools, and help with day-to-day development.</p>
+      </div>
+
+      <!-- Databases and data tools -->
+      <div class="card card-skill-group">
+        <span class="skill-icon" aria-hidden="true"><i class="fas fa-database"></i></span>
+        <h3>Databases &amp; Data</h3>
+        <ul>
+          <li>PostgreSQL</li>
+          <li>MySQL</li>
+          <li>DynamoDB</li>
           <li>Pandas</li>
           <li>NumPy</li>
         </ul>
       </div>
 
-      <!-- DevOps & Tooling -->
+      <!-- Other programming languages -->
       <div class="card card-skill-group">
-        <h3>DevOps & Tooling</h3>
+        <span class="skill-icon" aria-hidden="true"><i class="fas fa-code"></i></span>
+        <h3>Additional Languages</h3>
+        <ul>
+          <li>Java</li>
+          <li>JavaScript</li>
+          <li>TypeScript</li>
+        </ul>
+      </div>
+
+      <!-- Engineering tools -->
+      <div class="card card-skill-group">
+        <span class="skill-icon" aria-hidden="true"><i class="fas fa-cogs"></i></span>
+        <h3>DevOps &amp; Tools</h3>
         <ul>
           <li>Docker</li>
           <li>Git, GitHub, GitLab</li>
@@ -473,8 +379,20 @@
         </ul>
       </div>
 
+      <!-- Web skills -->
+      <div class="card card-skill-group">
+        <span class="skill-icon" aria-hidden="true"><i class="fas fa-laptop-code"></i></span>
+        <h3>Web Development</h3>
+        <ul>
+          <li>HTML &amp; CSS</li>
+          <li>Angular</li>
+          <li>Streamlit</li>
+        </ul>
+      </div>
+
       <!-- IDEs & Editors -->
       <div class="card card-skill-group">
+        <span class="skill-icon" aria-hidden="true"><i class="fas fa-terminal"></i></span>
         <h3>IDEs & Editors</h3>
         <ul>
           <li>Visual Studio Code</li>
@@ -571,8 +489,8 @@
         >
           <div class="section-inner">
             <div class="section-header">
-              <p class="eyebrow">Industry Exposure</p>
-              <h2 class="section-title">Internships</h2>
+              <p class="eyebrow">Learning &amp; Practice</p>
+              <h2 class="section-title">Programs &amp; Simulations</h2>
             </div>
 
             <article class="card">
@@ -581,20 +499,18 @@
               </h3>
               <p class="card-subtitle">Forage · November 2024</p>
               <p class="card-body">
-                Completed a simulation focused on advising a hypothetical social
-                media client as a Data Analyst at Accenture. Cleaned, modeled,
-                and analyzed seven datasets to uncover content trends and inform
-                strategic decisions, then presented insights through slides and
-                video walkthroughs.
+                I completed Accenture’s Forage data analytics simulation. I worked
+                through a fictional social media case, analyzed the provided datasets,
+                and presented my findings.
               </p>
               <a
                 href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/T6kdcdKSTfg2aotxT/hzmoNKtzvAzXsEqx8_T6kdcdKSTfg2aotxT_DR7vaaqnGKrf9vgLG_1732697439418_completion_certificate.pdf"
                 class="link-inline"
                 target="_blank"
                 rel="noopener noreferrer"
-              >
+               aria-label="View certificate: Accenture North America · Data Analytics and Visualization Job Simulation (opens in a new tab)">
                 <span>View certificate</span>
-                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-external-link-alt" aria-hidden="true"></i>
               </a>
             </article>
           </div>
@@ -614,146 +530,145 @@
             </div>
 
             <p class="section-intro">
-              I actively pursue certifications to strengthen fundamentals and
-              stay aligned with emerging technologies across programming, data,
-              AI, and security.
+              A few certifications and courses I’ve completed along the way.
             </p>
 
             <div class="grid grid-3">
               <article class="card card-cert">
-                <h3>Basics of Python</h3>
+                <span class="cert-icon" aria-hidden="true"><i class="fab fa-aws"></i></span>
+                <h3>AWS Certified Developer – Associate</h3>
                 <p class="card-body">
-                  Covered core Python syntax, functions, and problem solving
-                  through Infosys Springboard.
+                  Focused on building, deploying, and troubleshooting applications on AWS.
                 </p>
-                <a
-                  href="https://drive.google.com/file/d/1TfSk4322LS5aa1bVXym0r78Urfuo8Nu8/view"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="https://drive.google.com/file/d/1DAs5Dys_mkTwef-AGlMTaxRCiYVaYt6p/view?usp=drivesdk" class="link-inline" target="_blank" rel="noopener noreferrer" aria-label="View certificate: AWS Certified Developer – Associate (opens in a new tab)">
                   <span>View certificate</span>
-                  <i class="fas fa-arrow-right"></i>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                 </a>
               </article>
 
               <article class="card card-cert">
-                <h3>Programming Essentials in Python</h3>
-                <p class="card-body">
-                  Completed a Cisco Networking Academy program emphasizing
-                  Python best practices and structured problem solving.
-                </p>
-                <a
-                  href="https://drive.google.com/file/d/164QemQmeapZftkxdcxFeznYLQbvMNVi_/view"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>View certificate</span>
-                  <i class="fas fa-arrow-right"></i>
-                </a>
-              </article>
-
-              <article class="card card-cert">
-                <h3>Python Certified</h3>
-                <p class="card-body">
-                  Validated Python programming proficiency via Kaggle’s
-                  certification track.
-                </p>
-                <a
-                  href="https://drive.google.com/file/d/1VQadm-9uEeAFpcMsRy1bLApYTXmWx38f/view"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>View certificate</span>
-                  <i class="fas fa-arrow-right"></i>
-                </a>
-              </article>
-
-              <article class="card card-cert">
-                <h3>Java Foundations</h3>
-                <p class="card-body">
-                  Learned object‑oriented programming and Java fundamentals
-                  through Oracle Academy.
-                </p>
-                <a
-                  href="https://drive.google.com/file/d/1c0TdB2UE3ybKqIXeiH7C7UNmODs8hrTB/view"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>View certificate</span>
-                  <i class="fas fa-arrow-right"></i>
-                </a>
-              </article>
-
-              <article class="card card-cert">
-                <h3>Introduction to Cybersecurity</h3>
-                <p class="card-body">
-                  Learned core cybersecurity concepts, threat identification,
-                  and mitigation strategies via Cisco Networking Academy.
-                </p>
-                <a
-                  href="https://drive.google.com/file/d/1FvV3YADlnQpyNLa-4q3dasyewsnySOuT/view"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>View certificate</span>
-                  <i class="fas fa-arrow-right"></i>
-                </a>
-              </article>
-
-              <article class="card card-cert">
-                <h3>Cybersecurity Essentials</h3>
-                <p class="card-body">
-                  Deepened understanding of securing networks and identifying
-                  vulnerabilities through Cisco Networking Academy.
-                </p>
-                <a
-                  href="https://drive.google.com/file/d/1FvV3YADlnQpyNLa-4q3dasyewsnySOuT/view"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>View certificate</span>
-                  <i class="fas fa-arrow-right"></i>
-                </a>
-              </article>
-
-              <article class="card card-cert">
-                <h3>Data Analytics and Visualization Job Simulation</h3>
-                <p class="card-body">
-                  Practiced end‑to‑end analytics workflow with Accenture on
-                  Forage, from cleaning and modeling datasets to presenting
-                  insights.
-                </p>
-                <a
-                  href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/T6kdcdKSTfg2aotxT/hzmoNKtzvAzXsEqx8_T6kdcdKSTfg2aotxT_DR7vaaqnGKrf9vgLG_1732697439418_completion_certificate.pdf"
-                  class="link-inline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>View certificate</span>
-                  <i class="fas fa-arrow-right"></i>
-                </a>
-              </article>
-
-              <article class="card card-cert">
+                <span class="cert-icon" aria-hidden="true"><i class="fas fa-brain"></i></span>
                 <h3>Introduction to Generative AI</h3>
                 <p class="card-body">
-                  Gained a foundational understanding of generative AI and
-                  language models through Google Cloud.
+                  An introduction to generative AI and language models from Google Cloud.
                 </p>
                 <a
                   href="https://drive.google.com/file/d/1IymDwlXO0spaj4LJEmlh4oLomEcisLG3/view"
                   class="link-inline"
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label="View certificate: Introduction to Generative AI (opens in a new tab)"
                 >
                   <span>View certificate</span>
-                  <i class="fas fa-arrow-right"></i>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                </a>
+              </article>
+
+              <article class="card card-cert">
+                <span class="cert-icon" aria-hidden="true"><i class="fab fa-python"></i></span>
+                <h3>Programming Essentials in Python</h3>
+                <p class="card-body">
+                  Python programming and problem-solving through Cisco Networking Academy.
+                </p>
+                <a
+                  href="https://drive.google.com/file/d/164QemQmeapZftkxdcxFeznYLQbvMNVi_/view"
+                  class="link-inline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View certificate: Programming Essentials in Python (opens in a new tab)"
+                >
+                  <span>View certificate</span>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                </a>
+              </article>
+
+              <article class="card card-cert">
+                <span class="cert-icon" aria-hidden="true"><i class="fab fa-kaggle"></i></span>
+                <h3>Python Certified</h3>
+                <p class="card-body">
+                  A Python certification from Kaggle.
+                </p>
+                <a
+                  href="https://drive.google.com/file/d/1VQadm-9uEeAFpcMsRy1bLApYTXmWx38f/view"
+                  class="link-inline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View certificate: Python Certified (opens in a new tab)"
+                >
+                  <span>View certificate</span>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                </a>
+              </article>
+
+              <article class="card card-cert">
+                <span class="cert-icon" aria-hidden="true"><i class="fab fa-java"></i></span>
+                <h3>Java Foundations</h3>
+                <p class="card-body">
+                  Java and object-oriented programming fundamentals through Oracle Academy.
+                </p>
+                <a
+                  href="https://drive.google.com/file/d/1c0TdB2UE3ybKqIXeiH7C7UNmODs8hrTB/view"
+                  class="link-inline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View certificate: Java Foundations (opens in a new tab)"
+                >
+                  <span>View certificate</span>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                </a>
+              </article>
+
+              <article class="card card-cert">
+                <span class="cert-icon" aria-hidden="true"><i class="fas fa-chart-line"></i></span>
+                <h3>Data Analytics and Visualization Job Simulation</h3>
+                <p class="card-body">
+                  Practiced cleaning and analyzing data, then presenting findings in Accenture’s Forage simulation.
+                </p>
+                <a
+                  href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/T6kdcdKSTfg2aotxT/hzmoNKtzvAzXsEqx8_T6kdcdKSTfg2aotxT_DR7vaaqnGKrf9vgLG_1732697439418_completion_certificate.pdf"
+                  class="link-inline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View certificate: Data Analytics and Visualization Job Simulation (opens in a new tab)"
+                >
+                  <span>View certificate</span>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                </a>
+              </article>
+
+              <article class="card card-cert">
+                <span class="cert-icon" aria-hidden="true"><i class="fas fa-shield-alt"></i></span>
+                <h3>Cybersecurity Essentials</h3>
+                <p class="card-body">
+                  Network security and vulnerability basics through Cisco Networking Academy.
+                </p>
+                <a
+                  href="https://drive.google.com/file/d/1FvV3YADlnQpyNLa-4q3dasyewsnySOuT/view"
+                  class="link-inline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View certificate: Cybersecurity Essentials (opens in a new tab)"
+                >
+                  <span>View certificate</span>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                </a>
+              </article>
+
+              <article class="card card-cert">
+                <span class="cert-icon" aria-hidden="true"><i class="fas fa-lock"></i></span>
+                <h3>Introduction to Cybersecurity</h3>
+                <p class="card-body">
+                  Cybersecurity basics, common threats, and ways to reduce risk through Cisco Networking Academy.
+                </p>
+                <a
+                  href="https://drive.google.com/file/d/1FvV3YADlnQpyNLa-4q3dasyewsnySOuT/view"
+                  class="link-inline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View certificate: Introduction to Cybersecurity (opens in a new tab)"
+                >
+                  <span>View certificate</span>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                 </a>
               </article>
             </div>
@@ -772,8 +687,7 @@
               <p class="eyebrow">Let’s Connect</p>
               <h2 class="section-title">Connect With Me</h2>
               <p class="section-intro">
-                If you’d like to discuss an opportunity, a project, or just
-                talk about backend, data, or cloud, feel free to reach out.
+                Want to talk about a role, a project, or backend engineering? Feel free to get in touch.
               </p>
             </div>
 
@@ -857,9 +771,6 @@
         <div class="site-footer-inner">
           <div class="footer-left">
             <span>Designed &amp; built by <strong>Sairam Odela</strong></span>
-          </div>
-          <div class="footer-right">
-            <span id="live-time" class="live-time-footer"></span>
           </div>
         </div>
       </footer>
